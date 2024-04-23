@@ -59,6 +59,9 @@ app.use(cors({
   credentials: true
 }));
 
+app.use("/", () => {
+  console.log("hello wokld!")
+})
 /* MONGOOSE SETUP */
 const PORT = process.env.PORT || 6001;
 mongoose

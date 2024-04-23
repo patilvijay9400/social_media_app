@@ -64,7 +64,7 @@ const Form = () => {
     formData.append("picturePath", values.picture.name);
 
     const savedUserResponse = await fetch(
-      "https://social-media-api-kappa.vercel.app/auth/register",
+      "http://localhost:5001/auth/register",
       {
         method: "POST",
         body: formData,
@@ -79,7 +79,7 @@ const Form = () => {
   };
 
   const login = async (values, onSubmitProps) => {
-    const loggedInResponse = await fetch("https://social-media-api-kappa.vercel.app/auth/login", {
+    const loggedInResponse = await fetch("http://localhost:5001/auth/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(values),
@@ -130,6 +130,7 @@ const Form = () => {
             {isRegister && (
               <>
                 <TextField
+                  color="secondary"
                   label="First Name"
                   onBlur={handleBlur}
                   onChange={handleChange}
@@ -142,6 +143,7 @@ const Form = () => {
                   sx={{ gridColumn: "span 2" }}
                 />
                 <TextField
+                  color="secondary"
                   label="Last Name"
                   onBlur={handleBlur}
                   onChange={handleChange}
@@ -152,6 +154,7 @@ const Form = () => {
                   sx={{ gridColumn: "span 2" }}
                 />
                 <TextField
+                  color="secondary"
                   label="Location"
                   onBlur={handleBlur}
                   onChange={handleChange}
@@ -162,6 +165,7 @@ const Form = () => {
                   sx={{ gridColumn: "span 4" }}
                 />
                 <TextField
+                  color="secondary"
                   label="Occupation"
                   onBlur={handleBlur}
                   onChange={handleChange}
@@ -210,6 +214,7 @@ const Form = () => {
             )}
 
             <TextField
+              color="secondary"
               label="Email"
               onBlur={handleBlur}
               onChange={handleChange}
@@ -220,6 +225,7 @@ const Form = () => {
               sx={{ gridColumn: "span 4" }}
             />
             <TextField
+              color="secondary"
               label="Password"
               type="password"
               onBlur={handleBlur}
@@ -240,9 +246,9 @@ const Form = () => {
               sx={{
                 m: "2rem 0",
                 p: "1rem",
-                backgroundColor: palette.primary.main,
+                backgroundColor: palette.secondary.main,
                 color: palette.background.alt,
-                "&:hover": { color: palette.primary.main },
+                "&:hover": { color: palette.secondary.main },
               }}
             >
               {isLogin ? "LOGIN" : "REGISTER"}
