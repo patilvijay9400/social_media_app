@@ -54,7 +54,9 @@ app.use("/posts", postRoutes);
 
 // Allow specific origin(s)
 app.use(cors({
-  origin: 'https://social-media-app-ruddy-sigma.vercel.app'
+  origin: ["https://social-media-app-ruddy-sigma.vercel.app"],
+  methods: ["POST", "GET"],
+  credentials: true
 }));
 
 /* MONGOOSE SETUP */
