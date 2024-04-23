@@ -52,6 +52,11 @@ app.use("/auth", authRoutes);
 app.use("/users", userRoutes);
 app.use("/posts", postRoutes);
 
+// Allow specific origin(s)
+app.use(cors({
+  origin: 'http://localhost:3000/'
+}));
+
 /* MONGOOSE SETUP */
 const PORT = process.env.PORT || 6001;
 mongoose
