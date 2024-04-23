@@ -56,51 +56,73 @@ const Form = () => {
   const isRegister = pageType === "register";
 
   const register = async (values, onSubmitProps) => {
-    // this allows us to send form info with image
     const formData = new FormData();
     for (let value in values) {
       formData.append(value, values[value]);
     }
     formData.append("picturePath", values.picture.name);
-
-    const savedUserResponse = await fetch(
-      "https://social-media-api-kappa.vercel.app//auth/register",
-      {
-        method: "POST",
-        body: formData,
-      }
-    );
-    const savedUser = await savedUserResponse.json();
-    onSubmitProps.resetForm();
-
-    if (savedUser) {
-      setPageType("login");
-    }
-  };
-
-  const login = async (values, onSubmitProps) => {
-    const loggedInResponse = await fetch("https://social-media-api-kappa.vercel.app//auth/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(values),
-    });
-    const loggedIn = await loggedInResponse.json();
-    onSubmitProps.resetForm();
-    if (loggedIn) {
-      dispatch(
-        setLogin({
-          user: loggedIn.user,
-          token: loggedIn.token,
-        })
+  
+    try {
+      const savedUserResponse = await fetch(
+        `https://social-media-api-kappa.vercel.app/auth/register`,
+        {
+          method: "POST",
+          body: formData,
+        }
       );
-      navigate("/home");
+      if (!savedUserResponse.ok) {
+        throw new Error("Failed to register user");
+      }
+  
+      const savedUser = await savedUserResponse.json();
+      onSubmitProps.resetForm();
+  
+      if (savedUser) {
+        setPageType("login");
+      }
+    } catch (error) {
+      console.error("Error registering user:", error.message);
+      // Handle error: Display error message, show notification, etc.
     }
   };
-
+  
+  const login = async (values, onSubmitProps) => {
+    try {
+      const loggedInResponse = await fetch(
+        `https://social-media-api-kappa.vercel.app/auth/login`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(values),
+        }
+      );
+      if (!loggedInResponse.ok) {
+        throw new Error("Failed to log in");
+      }
+  
+      const loggedIn = await loggedInResponse.json();
+      onSubmitProps.resetForm();
+  
+      if (loggedIn) {
+        dispatch(
+          setLogin({
+            user: loggedIn.user,
+            token: loggedIn.token,
+          })
+        );
+        navigate("/home");
+      }
+    } catch (error) {
+      console.error("Error logging in:", error.message);
+      // Handle error: Display error message, show notification, etc.
+    }
+  };
+  
   const handleFormSubmit = async (values, onSubmitProps) => {
     if (isLogin) await login(values, onSubmitProps);
     if (isRegister) await register(values, onSubmitProps);
   };
+  
 
   return (
     <Formik
