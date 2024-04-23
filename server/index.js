@@ -54,7 +54,7 @@ app.use("/posts", postRoutes);
 
 // Allow specific origin(s)
 app.use(cors({
-  origin: 'http://localhost:3000/'
+  origin: 'https://social-media-app-ruddy-sigma.vercel.app'
 }));
 
 /* MONGOOSE SETUP */
