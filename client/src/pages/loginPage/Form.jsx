@@ -64,7 +64,7 @@ const Form = () => {
   
     try {
       const savedUserResponse = await fetch(
-        `https://social-media-api-kappa.vercel.app/auth/register`,
+        `https://social-menia-backend.onrender.com/auth/register`,
         {
           method: "POST",
           body: formData,
@@ -89,7 +89,7 @@ const Form = () => {
   const login = async (values, onSubmitProps) => {
     try {
       const loggedInResponse = await fetch(
-        `https://social-media-api-kappa.vercel.app/auth/login`,
+        `https://social-menia-backend.onrender.com/auth/login`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
