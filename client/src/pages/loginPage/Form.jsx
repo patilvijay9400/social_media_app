@@ -46,7 +46,7 @@ const initialValuesLogin = {
   password: "",
 };
 
-const Form = () => {
+const Form = ({showToast}) => {
   const [pageType, setPageType] = useState("login");
   const { palette } = useTheme();
   const dispatch = useDispatch();
@@ -70,18 +70,20 @@ const Form = () => {
           body: formData,
         }
       );
+      console.log(savedUserResponse)
       if (!savedUserResponse.ok) {
         throw new Error("Failed to register user");
       }
-  
       const savedUser = await savedUserResponse.json();
       onSubmitProps.resetForm();
   
       if (savedUser) {
         setPageType("login");
       }
+      showToast("success", "User Registered Successfully");
     } catch (error) {
       console.error("Error registering user:", error.message);
+      showToast("error", error.message);
       // Handle error: Display error message, show notification, etc.
     }
   };
@@ -97,6 +99,10 @@ const Form = () => {
         }
       );
       if (!loggedInResponse.ok) {
+        if (loggedInResponse.status === 400) {
+          showToast("error", "Invalid username or password!");
+          return; // Return early
+        }
         throw new Error("Failed to log in");
       }
   
@@ -111,13 +117,14 @@ const Form = () => {
           })
         );
         navigate("/home");
+        showToast("success", "Login Successfully!");
       }
     } catch (error) {
       console.error("Error logging in:", error.message);
-      // Handle error: Display error message, show notification, etc.
     }
   };
   
+
   const handleFormSubmit = async (values, onSubmitProps) => {
     if (isLogin) await login(values, onSubmitProps);
     if (isRegister) await register(values, onSubmitProps);
@@ -158,9 +165,7 @@ const Form = () => {
                   onChange={handleChange}
                   value={values.firstName}
                   name="firstName"
-                  error={
-                    Boolean(touched.firstName) && Boolean(errors.firstName)
-                  }
+                  error={Boolean(touched.firstName) && Boolean(errors.firstName)}
                   helperText={touched.firstName && errors.firstName}
                   sx={{ gridColumn: "span 2" }}
                 />
